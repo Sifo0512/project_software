@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Search, User, Menu, X, Laptop, Filter, Star } from 'lucide-react';
 
-export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick, onAddToCart, onGoToCart, cartItemsCount }) {
+export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick, onAddToCart, onGoToCart, onGoToOrderHistory, cartItemsCount, orderHistoryCount }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -11,6 +11,7 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
     {
       id: 1,
       name: 'Dell XPS 15',
+      brand: 'Dell',
       price: 1299.99,
       image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400',
       images: [
@@ -42,6 +43,7 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
     {
       id: 2,
       name: 'MacBook Pro 14"',
+      brand: 'Apple',
       price: 1999.99,
       image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400',
       images: [
@@ -72,7 +74,8 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
     },
     {
       id: 3,
-      name: 'Lenovo ThinkPad',
+      name: 'Lenovo ThinkPad X1',
+      brand: 'Lenovo',
       price: 899.99,
       image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400',
       images: [
@@ -103,7 +106,8 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
     },
     {
       id: 4,
-      name: 'ASUS ROG Strix',
+      name: 'ASUS ROG Strix G15',
+      brand: 'ASUS',
       price: 1599.99,
       image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400',
       images: [
@@ -134,7 +138,8 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
     },
     {
       id: 5,
-      name: 'HP Pavilion',
+      name: 'HP Pavilion 15',
+      brand: 'HP',
       price: 649.99,
       image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400',
       images: [
@@ -166,6 +171,7 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
     {
       id: 6,
       name: 'Acer Aspire 5',
+      brand: 'Acer',
       price: 549.99,
       image: 'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?w=400',
       images: [
@@ -198,14 +204,16 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
 
   const categories = [
     { id: 'all', name: 'Todas' },
-    { id: 'premium', name: 'Premium' },
-    { id: 'gaming', name: 'Gaming' },
-    { id: 'business', name: 'Negocios' },
-    { id: 'home', name: 'Hogar' }
+    { id: 'Dell', name: 'Dell' },
+    { id: 'Apple', name: 'Apple' },
+    { id: 'Lenovo', name: 'Lenovo' },
+    { id: 'ASUS', name: 'ASUS' },
+    { id: 'HP', name: 'HP' },
+    { id: 'Acer', name: 'Acer' }
   ];
 
   const filteredLaptops = laptops.filter(laptop => {
-    const matchesCategory = selectedCategory === 'all' || laptop.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'all' || laptop.brand === selectedCategory;
     const matchesSearch = laptop.name.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
@@ -256,11 +264,22 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
                 </button>
                 
                 {/* Dropdown Menu */}
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block">
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block">
                   <div className="px-4 py-2 border-b border-gray-200">
                     <p className="text-sm font-semibold text-gray-800">{currentUser}</p>
                     <p className="text-xs text-gray-500">Usuario</p>
                   </div>
+                  <button
+                    onClick={onGoToOrderHistory}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center justify-between"
+                  >
+                    <span>Mis Pedidos</span>
+                    {orderHistoryCount > 0 && (
+                      <span className="bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        {orderHistoryCount}
+                      </span>
+                    )}
+                  </button>
                   <button
                     onClick={onLogout}
                     className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
