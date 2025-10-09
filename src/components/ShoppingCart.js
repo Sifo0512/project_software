@@ -1,12 +1,48 @@
-import React from 'react';
-import { ArrowLeft, Trash2, Plus, Minus, ShoppingBag, Tag } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowLeft, Trash2, Plus, Minus, ShoppingBag, Tag, X } from 'lucide-react';
 
 export default function ShoppingCart({ cartItems, onBack, onUpdateQuantity, onRemoveItem, onCheckout }) {
+  const [expandedProduct, setExpandedProduct] = useState(null);
+
   // Calcular totales
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = subtotal > 1000 ? 0 : 50; // Envío gratis si es mayor a $1000
-  const tax = subtotal * 0.16; // IVA 16%
+  const shipping = subtotal > 1000 ? 0 : 50;
+  const tax = subtotal * 0.16;
   const total = subtotal + shipping + tax;
+
+  const getSelectedProduct = () => {
+    if (expandedProduct) {
+      return cartItems.find(item => item.id === expandedProduct.id);
+    }
+    return null;
+  };
+
+  const selectedProduct = getSelectedProduct();
+
+  const handleQuantityInput = (e) => {
+    let value = e.target.value;
+    
+    if (value === '') {
+      setExpandedProduct(prev => ({ ...prev, quantity: '' }));
+      return;
+    }
+    
+    let num = parseInt(value, 10);
+    
+    if (isNaN(num) || num < 0) {
+      setExpandedProduct(prev => ({ ...prev, quantity: 0 }));
+      return;
+    }
+    
+    if (num > selectedProduct.stock) {
+      setExpandedProduct(prev => ({ ...prev, quantity: selectedProduct.stock }));
+      onUpdateQuantity(selectedProduct.id, selectedProduct.stock);
+      return;
+    }
+    
+    setExpandedProduct(prev => ({ ...prev, quantity: num }));
+    onUpdateQuantity(selectedProduct.id, num);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -46,78 +82,210 @@ export default function ShoppingCart({ cartItems, onBack, onUpdateQuantity, onRe
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Lista de productos */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Lista de productos - 3 columnas */}
             <div className="lg:col-span-2 space-y-4">
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white rounded-xl shadow-md p-6 flex items-center space-x-4"
+                  className={`bg-white rounded-xl shadow-md p-6 cursor-pointer transition-all ${
+                    selectedProduct?.id === item.id
+                      ? 'ring-2 ring-blue-600 shadow-lg'
+                      : 'hover:shadow-lg'
+                  }`}
+                  onClick={() => setExpandedProduct(item)}
                 >
-                  {/* Imagen */}
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-24 h-24 object-cover rounded-lg"
-                  />
+                  <div className="flex items-start space-x-4">
+                    {/* Imagen */}
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-24 h-24 object-cover rounded-lg"
+                    />
 
-                  {/* Información del producto */}
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-gray-800 mb-1">
-                      {item.name}
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-2">
-                      {item.specs}
-                    </p>
-                    <p className="text-xl font-bold text-blue-600">
-                      ${item.price.toFixed(2)}
-                    </p>
+                    {/* Información del producto */}
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-gray-800 mb-1">
+                        {item.name}
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-2">
+                        {item.specs}
+                      </p>
+                      <p className="text-xl font-bold text-blue-600 mb-3">
+                        ${item.price.toFixed(2)}
+                      </p>
+
+                      {/* Controles de cantidad */}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center border border-gray-300 rounded-lg">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onUpdateQuantity(item.id, item.quantity - 1);
+                            }}
+                            disabled={item.quantity <= 1}
+                            className="px-2 py-1 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                          >
+                            <Minus className="w-4 h-4" />
+                          </button>
+                          <span className="px-4 py-1 font-semibold text-gray-800 border-x border-gray-300">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onUpdateQuantity(item.id, item.quantity + 1);
+                            }}
+                            disabled={item.quantity >= item.stock}
+                            className="px-2 py-1 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                          >
+                            <Plus className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        {/* Botón eliminar */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onRemoveItem(item.id);
+                            if (selectedProduct?.id === item.id) {
+                              setExpandedProduct(null);
+                            }
+                          }}
+                          className="text-red-600 hover:text-red-800 transition-colors flex items-center space-x-1"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          <span className="text-sm">Eliminar</span>
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Controles de cantidad */}
-                  <div className="flex flex-col items-center space-y-4">
-                    <div className="flex items-center border border-gray-300 rounded-lg">
-                      <button
-                        onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
-                        disabled={item.quantity <= 1}
-                        className="px-3 py-1 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                      >
-                        <Minus className="w-4 h-4" />
-                      </button>
-                      <span className="px-4 py-1 font-semibold text-gray-800 border-x border-gray-300">
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                        disabled={item.quantity >= item.stock}
-                        className="px-3 py-1 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                      >
-                        <Plus className="w-4 h-4" />
-                      </button>
-                    </div>
-
-                    {/* Subtotal del producto */}
+                  {/* Subtotal */}
+                  <div className="mt-3 pt-3 border-t border-gray-200 text-right">
                     <p className="text-sm text-gray-600">
                       Subtotal: <span className="font-bold text-gray-900">
                         ${(item.price * item.quantity).toFixed(2)}
                       </span>
                     </p>
-
-                    {/* Botón eliminar */}
-                    <button
-                      onClick={() => onRemoveItem(item.id)}
-                      className="text-red-600 hover:text-red-800 transition-colors flex items-center space-x-1"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      <span className="text-sm">Eliminar</span>
-                    </button>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Resumen de la orden */}
-            <div className="lg:col-span-1">
+            {/* Panel derecho - Resumen + Detalles del producto */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Detalles del producto expandido */}
+              {selectedProduct && (
+                <div className="bg-white rounded-xl shadow-md p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-bold text-gray-900">
+                      Detalles del Producto
+                    </h2>
+                    <button
+                      onClick={() => setExpandedProduct(null)}
+                      className="text-gray-600 hover:text-gray-800 transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  {/* Imagen grande */}
+                  <img
+                    src={selectedProduct.image}
+                    alt={selectedProduct.name}
+                    className="w-full h-48 object-cover rounded-lg mb-4"
+                  />
+
+                  {/* Información */}
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-sm text-gray-500">Nombre</p>
+                      <p className="text-lg font-bold text-gray-900">
+                        {selectedProduct.name}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-sm text-gray-500">Especificaciones</p>
+                      <p className="text-gray-700">{selectedProduct.specs}</p>
+                    </div>
+
+                    <div>
+                      <p className="text-sm text-gray-500">Precio Unitario</p>
+                      <p className="text-2xl font-bold text-blue-600">
+                        ${selectedProduct.price.toFixed(2)}
+                      </p>
+                    </div>
+
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <p className="text-sm text-gray-600 mb-2">Cantidad en carrito</p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center border border-gray-300 rounded-lg">
+                          <button
+                            onClick={() => onUpdateQuantity(selectedProduct.id, selectedProduct.quantity - 1)}
+                            disabled={selectedProduct.quantity <= 1}
+                            className="px-3 py-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                          >
+                            <Minus className="w-4 h-4" />
+                          </button>
+                          <input
+                            type="number"
+                            value={selectedProduct.quantity}
+                            onChange={handleQuantityInput}
+                            min="1"
+                            max={selectedProduct.stock}
+                            className="w-16 px-2 py-2 text-center font-semibold text-gray-800 border-x border-gray-300 focus:outline-none"
+                          />
+                        </div>
+                        <span className="text-sm text-gray-600">
+                          ({selectedProduct.stock} disponibles)
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="bg-blue-50 p-3 rounded-lg">
+                      <p className="text-sm text-gray-600 mb-1">Subtotal de este producto</p>
+                      <p className="text-2xl font-bold text-blue-600">
+                        ${(selectedProduct.price * selectedProduct.quantity).toFixed(2)}
+                      </p>
+                    </div>
+
+                    {selectedProduct.description && (
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">Descripción</p>
+                        <p className="text-sm text-gray-700 leading-relaxed">
+                          {selectedProduct.description}
+                        </p>
+                      </div>
+                    )}
+
+                    {selectedProduct.features && selectedProduct.features.length > 0 && (
+                      <div>
+                        <p className="text-sm text-gray-500 mb-2">Características</p>
+                        <ul className="text-sm text-gray-700 space-y-1">
+                          {selectedProduct.features.slice(0, 4).map((feature, index) => (
+                            <li key={index} className="flex items-start">
+                              <span className="text-blue-600 mr-2">✓</span>
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+
+                  <button
+                    onClick={() => onRemoveItem(selectedProduct.id)}
+                    className="w-full mt-4 bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700 transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    <span>Eliminar del carrito</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Resumen de la orden */}
               <div className="bg-white rounded-xl shadow-md p-6 sticky top-24">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">
                   Resumen de la Orden

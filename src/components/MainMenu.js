@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Search, User, Menu, X, Laptop, Filter, Star } from 'lucide-react';
 
-export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick, onAddToCart, onGoToCart, onGoToOrderHistory, cartItemsCount, orderHistoryCount }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick, onAddToCart, onGoToCart, onGoToOrderHistory, onGoToProducts, onGoToContact, cartItemsCount, orderHistoryCount }) {  const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   // Datos de ejemplo de laptops
   const laptops = [
     {
@@ -246,13 +244,19 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
-              <button className="text-gray-700 hover:text-blue-600 transition-colors">
-                Productos
-              </button>
+            <button 
+              onClick={onGoToProducts}
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+            >
+              Productos
+            </button>
               <button className="text-gray-700 hover:text-blue-600 transition-colors">
                 Ofertas
               </button>
-              <button className="text-gray-700 hover:text-blue-600 transition-colors">
+              <button 
+                onClick={onGoToContact}
+                className="text-gray-700 hover:text-blue-600 transition-colors"
+              >
                 Contacto
               </button>
               

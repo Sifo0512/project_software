@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ShoppingCart, Heart, Star, Check, Truck, Shield, Package } from 'lucide-react';
 
-export default function ProductDetail({ product, onBack, onAddToCart }) {
+export default function ProductDetail({ product, onBack, onAddToCart, onGoToCart }) {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [addedToCart, setAddedToCart] = useState(false);
@@ -51,6 +51,33 @@ export default function ProductDetail({ product, onBack, onAddToCart }) {
       setQuantity(newQuantity);
     }
   };
+  
+  const handleQuantityInput = (e) => {
+    let value = e.target.value;
+    
+    // Si está vacío, dejarlo así
+    if (value === '') {
+      setQuantity('');
+      return;
+    }
+    
+    // Convertir a número
+    let num = parseInt(value, 10);
+    
+    // Si no es un número válido, ponerlo en 0
+    if (isNaN(num) || num < 0) {
+      setQuantity(0);
+      return;
+    }
+    
+    // Si es mayor al stock disponible, limitarlo
+    if (num > currentProduct.stock) {
+      setQuantity(currentProduct.stock);
+      return;
+    }
+    
+    setQuantity(num);
+  };
 
   const handleAddToCart = () => {
     if (onAddToCart) {
@@ -72,8 +99,17 @@ export default function ProductDetail({ product, onBack, onAddToCart }) {
             <ArrowLeft className="w-5 h-5" />
             <span className="font-medium">Volver a la tienda</span>
           </button>
+                <button 
+            onClick={onGoToCart}
+            className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            <ShoppingCart className="w-6 h-6 text-gray-700" />
+          </button>
         </div>
       </div>
+
+    
+
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -164,37 +200,37 @@ export default function ProductDetail({ product, onBack, onAddToCart }) {
             </div>
 
             {/* Selector de cantidad */}
-            <div className="space-y-2">
-              <label className="block text-sm font-semibold text-gray-700">
-                Cantidad
-              </label>
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center border border-gray-300 rounded-lg">
-                  <button
-                    onClick={() => handleQuantityChange(-1)}
-                    disabled={quantity <= 1}
-                    className="px-4 py-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    -
-                  </button>
-                  <span className="px-6 py-2 font-semibold text-gray-800 border-x border-gray-300">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => handleQuantityChange(1)}
-                    disabled={quantity >= currentProduct.stock}
-                    className="px-4 py-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    +
-                  </button>
-                </div>
-                <span className="text-gray-600 text-sm">
-                  Total: <span className="font-bold text-lg text-gray-900">
-                    ${(currentProduct.price * quantity).toFixed(2)}
-                  </span>
-                </span>
-              </div>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center border border-gray-300 rounded-lg">
+              <button
+                onClick={() => handleQuantityChange(-1)}
+                disabled={quantity <= 1}
+                className="px-4 py-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                value={quantity}
+                onChange={handleQuantityInput}
+                min="1"
+                max={currentProduct.stock}
+                className="w-16 px-2 py-2 text-center font-semibold text-gray-800 border-x border-gray-300 focus:outline-none"
+              />
+              <button
+                onClick={() => handleQuantityChange(1)}
+                disabled={quantity >= currentProduct.stock}
+                className="px-4 py-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                +
+              </button>
             </div>
+            <span className="text-gray-600 text-sm">
+              Total: <span className="font-bold text-lg text-gray-900">
+                ${(currentProduct.price * quantity).toFixed(2)}
+              </span>
+            </span>
+          </div>
 
             {/* Botones de acción */}
             <div className="flex space-x-4">
