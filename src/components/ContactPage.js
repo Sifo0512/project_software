@@ -130,13 +130,6 @@ export default function ContactPage({ onBack }) {
       email: 'pailasmiperri@techstore.com',
       phone: '3003456789',
       image: '👨‍💼'
-    },
-    {
-        name: 'La negra del Oriente Peruano',
-        role: 'Gerente de Operaciones',
-        email: 'ana@techstore.com',
-        phone: '3004567890',
-        image: '👩‍💼'
     }
   ];
 
@@ -358,7 +351,7 @@ export default function ContactPage({ onBack }) {
             Nuestro Equipo de Soporte
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {team.map((member, index) => (
               <div key={index} className="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition-shadow">
                 <div className="text-6xl mb-3">{member.image}</div>

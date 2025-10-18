@@ -451,38 +451,7 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
       {/* Footer */}
       <footer className="bg-gray-800 text-white mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-lg font-bold mb-4">TechLaptops</h3>
-              <p className="text-gray-400 text-sm">
-                Tu tienda de confianza para las mejores laptops del mercado.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Productos</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li className="hover:text-white cursor-pointer">Gaming</li>
-                <li className="hover:text-white cursor-pointer">Negocios</li>
-                <li className="hover:text-white cursor-pointer">Hogar</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Soporte</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li className="hover:text-white cursor-pointer">Contacto</li>
-                <li className="hover:text-white cursor-pointer">Envíos</li>
-                <li className="hover:text-white cursor-pointer">Devoluciones</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li className="hover:text-white cursor-pointer">Privacidad</li>
-                <li className="hover:text-white cursor-pointer">Términos</li>
-                <li className="hover:text-white cursor-pointer">Garantía</li>
-              </ul>
-            </div>
-          </div>
+        
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
             © 2025 TechLaptops. Todos los derechos reservados.
           </div>

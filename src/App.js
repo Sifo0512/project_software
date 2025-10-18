@@ -11,8 +11,8 @@ import ProductsPage from './components/ProductsPage';
 import ContactPage from './components/ContactPage';
 
 function App() {
-  const [currentView, setCurrentView] = useState('login');
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentView, setCurrentView] = useState('menu');
+  const [currentUser, setCurrentUser] = useState('Invitado');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [currentOrder, setCurrentOrder] = useState(null);
@@ -249,10 +249,10 @@ function App() {
   };
 
   const handleLogout = () => {
-    setCurrentUser(null);
+    setCurrentUser('Invitado');
     setCartItems([]);
     setCurrentOrder(null);
-    setCurrentView('login');
+    setCurrentView('menu');
   };
 
   const handleProductClick = (product) => {
