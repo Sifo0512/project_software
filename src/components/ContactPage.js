@@ -132,7 +132,7 @@ export default function ContactPage({ onBack }) {
       image: '👨‍💼'
     },
     {
-        name: 'Ana Martínez',
+        name: 'La negra del Oriente Peruano',
         role: 'Gerente de Operaciones',
         email: 'ana@techstore.com',
         phone: '3004567890',
