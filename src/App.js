@@ -265,6 +265,10 @@ function App() {
     setCurrentView('menu');
   };
 
+  const handleGoToLogin = () => {
+    setCurrentView('login');
+  };
+  
   const handleGoToCart = () => {
     setCurrentView('cart');
   };
@@ -376,6 +380,7 @@ function App() {
         onGoToOrderHistory={handleGoToOrderHistory}
         onGoToProducts={handleGoToProducts}
         onGoToContact={handleGoToContact}
+        onGoToLogin={handleGoToLogin}
         cartItemsCount={cartItems.length}
         orderHistoryCount={orderHistory.length}
         laptops={laptops}

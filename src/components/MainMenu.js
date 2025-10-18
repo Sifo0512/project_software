@@ -1,204 +1,10 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Search, User, Menu, X, Laptop, Filter, Star } from 'lucide-react';
 
-export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick, onAddToCart, onGoToCart, onGoToOrderHistory, onGoToProducts, onGoToContact, cartItemsCount, orderHistoryCount }) {  const [selectedCategory, setSelectedCategory] = useState('all');
+export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick, onAddToCart, onGoToCart, onGoToOrderHistory, onGoToProducts, onGoToContact, onGoToLogin, cartItemsCount, orderHistoryCount, laptops }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // Datos de ejemplo de laptops
-  const laptops = [
-    {
-      id: 1,
-      name: 'Dell XPS 15',
-      brand: 'Dell',
-      price: 1299.99,
-      image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400',
-      images: [
-        'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800',
-        'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800',
-        'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800'
-      ],
-      category: 'premium',
-      rating: 4.8,
-      reviews: 124,
-      stock: 15,
-      specs: 'Intel i7, 16GB RAM, 512GB SSD',
-      description: 'La Dell XPS 15 es una laptop premium diseñada para profesionales que buscan potencia y portabilidad.',
-      specifications: {
-        'Procesador': 'Intel Core i7-13700H',
-        'RAM': '16GB DDR5',
-        'Almacenamiento': '512GB NVMe SSD',
-        'Pantalla': '15.6" FHD+',
-        'Tarjeta Gráfica': 'NVIDIA GeForce RTX 3050',
-        'Sistema Operativo': 'Windows 11 Pro'
-      },
-      features: [
-        'Diseño premium en aluminio',
-        'Teclado retroiluminado',
-        'Lector de huellas dactilares',
-        'Webcam HD con obturador'
-      ]
-    },
-    {
-      id: 2,
-      name: 'MacBook Pro 14"',
-      brand: 'Apple',
-      price: 1999.99,
-      image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400',
-      images: [
-        'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800',
-        'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800',
-        'https://images.unsplash.com/photo-1625247959778-4e99d8c02f04?w=800'
-      ],
-      category: 'premium',
-      rating: 4.9,
-      reviews: 98,
-      stock: 8,
-      specs: 'M3 Pro, 18GB RAM, 512GB SSD',
-      description: 'MacBook Pro con chip M3 Pro ofrece un rendimiento revolucionario para creativos y profesionales.',
-      specifications: {
-        'Procesador': 'Apple M3 Pro',
-        'RAM': '18GB Unified Memory',
-        'Almacenamiento': '512GB SSD',
-        'Pantalla': '14.2" Liquid Retina XDR',
-        'Tarjeta Gráfica': 'GPU 14 núcleos',
-        'Sistema Operativo': 'macOS Sonoma'
-      },
-      features: [
-        'Pantalla Liquid Retina XDR',
-        'Batería de hasta 18 horas',
-        'Magic Keyboard',
-        'Touch ID'
-      ]
-    },
-    {
-      id: 3,
-      name: 'Lenovo ThinkPad X1',
-      brand: 'Lenovo',
-      price: 899.99,
-      image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400',
-      images: [
-        'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800',
-        'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800',
-        'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800'
-      ],
-      category: 'business',
-      rating: 4.6,
-      reviews: 156,
-      stock: 20,
-      specs: 'Intel i5, 8GB RAM, 256GB SSD',
-      description: 'ThinkPad diseñada para negocios con durabilidad militar y seguridad empresarial.',
-      specifications: {
-        'Procesador': 'Intel Core i5-1235U',
-        'RAM': '8GB DDR4',
-        'Almacenamiento': '256GB SSD',
-        'Pantalla': '14" FHD',
-        'Tarjeta Gráfica': 'Intel Iris Xe',
-        'Sistema Operativo': 'Windows 11 Pro'
-      },
-      features: [
-        'Certificación militar MIL-STD-810H',
-        'TrackPoint rojo icónico',
-        'Teclado resistente a derrames',
-        'Lector de huellas'
-      ]
-    },
-    {
-      id: 4,
-      name: 'ASUS ROG Strix G15',
-      brand: 'ASUS',
-      price: 1599.99,
-      image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400',
-      images: [
-        'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=800',
-        'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800',
-        'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=800'
-      ],
-      category: 'gaming',
-      rating: 4.7,
-      reviews: 89,
-      stock: 12,
-      specs: 'AMD Ryzen 7, 16GB RAM, RTX 3060',
-      description: 'Laptop gaming con el poder para dominar cualquier juego AAA con gráficos en alta calidad.',
-      specifications: {
-        'Procesador': 'AMD Ryzen 7 6800H',
-        'RAM': '16GB DDR5',
-        'Almacenamiento': '1TB NVMe SSD',
-        'Pantalla': '15.6" FHD 144Hz',
-        'Tarjeta Gráfica': 'NVIDIA RTX 3060 6GB',
-        'Sistema Operativo': 'Windows 11 Home'
-      },
-      features: [
-        'Pantalla 144Hz para gaming',
-        'RGB Aura Sync',
-        'Sistema de refrigeración avanzado',
-        'Audio ROG'
-      ]
-    },
-    {
-      id: 5,
-      name: 'HP Pavilion 15',
-      brand: 'HP',
-      price: 649.99,
-      image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400',
-      images: [
-        'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800',
-        'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800',
-        'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800'
-      ],
-      category: 'home',
-      rating: 4.3,
-      reviews: 203,
-      stock: 25,
-      specs: 'Intel i3, 8GB RAM, 256GB SSD',
-      description: 'Laptop ideal para uso diario, estudios y entretenimiento con excelente relación calidad-precio.',
-      specifications: {
-        'Procesador': 'Intel Core i3-1215U',
-        'RAM': '8GB DDR4',
-        'Almacenamiento': '256GB SSD',
-        'Pantalla': '15.6" HD',
-        'Tarjeta Gráfica': 'Intel UHD Graphics',
-        'Sistema Operativo': 'Windows 11 Home'
-      },
-      features: [
-        'Diseño delgado y ligero',
-        'Batería de larga duración',
-        'Webcam HP TrueVision',
-        'Audio B&O'
-      ]
-    },
-    {
-      id: 6,
-      name: 'Acer Aspire 5',
-      brand: 'Acer',
-      price: 549.99,
-      image: 'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?w=400',
-      images: [
-        'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?w=800',
-        'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800',
-        'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800'
-      ],
-      category: 'home',
-      rating: 4.2,
-      reviews: 178,
-      stock: 30,
-      specs: 'Intel i5, 8GB RAM, 512GB SSD',
-      description: 'Laptop económica con buen rendimiento para tareas cotidianas y productividad básica.',
-      specifications: {
-        'Procesador': 'Intel Core i5-1135G7',
-        'RAM': '8GB DDR4',
-        'Almacenamiento': '512GB SSD',
-        'Pantalla': '15.6" FHD',
-        'Tarjeta Gráfica': 'Intel Iris Xe',
-        'Sistema Operativo': 'Windows 11 Home'
-      },
-      features: [
-        'Pantalla Full HD',
-        'Teclado numérico',
-        'Puerto USB Type-C',
-        'Batería de 8 horas'
-      ]
-    }
-  ];
+  const [selectedBrand, setSelectedBrand] = useState('all');
 
   const categories = [
     { id: 'all', name: 'Todas' },
@@ -211,9 +17,12 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
   ];
 
   const filteredLaptops = laptops.filter(laptop => {
-    const matchesCategory = selectedCategory === 'all' || laptop.brand === selectedCategory;
-    const matchesSearch = laptop.name.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    const matchesBrand = selectedBrand === 'all' || laptop.brand === selectedBrand;
+    const matchesSearch = 
+      laptop.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      laptop.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      laptop.specs.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesBrand && matchesSearch;
   });
 
   return (
@@ -236,7 +45,7 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Buscar laptops..."
+                  placeholder="Buscar por marca o modelo..."
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -244,12 +53,12 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
-            <button 
-              onClick={onGoToProducts}
-              className="text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              Productos
-            </button>
+              <button 
+                onClick={onGoToProducts}
+                className="text-gray-700 hover:text-blue-600 transition-colors"
+              >
+                Productos
+              </button>
               <button className="text-gray-700 hover:text-blue-600 transition-colors">
                 Ofertas
               </button>
@@ -264,7 +73,7 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
               <div className="relative group">
                 <button className="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded-lg transition-colors">
                   <User className="w-6 h-6 text-gray-700" />
-                  <span className="text-sm text-gray-700 hidden md:block">{currentUser}</span>
+                  <span className="text-sm text-gray-700 hidden lg:block">{currentUser}</span>
                 </button>
                 
                 {/* Dropdown Menu */}
@@ -273,23 +82,35 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
                     <p className="text-sm font-semibold text-gray-800">{currentUser}</p>
                     <p className="text-xs text-gray-500">Usuario</p>
                   </div>
-                  <button
-                    onClick={onGoToOrderHistory}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center justify-between"
-                  >
-                    <span>Mis Pedidos</span>
-                    {orderHistoryCount > 0 && (
-                      <span className="bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                        {orderHistoryCount}
-                      </span>
-                    )}
-                  </button>
-                  <button
-                    onClick={onLogout}
-                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                  >
-                    Cerrar Sesión
-                  </button>
+                  
+                  {currentUser === 'Invitado' ? (
+                    <button
+                      onClick={onGoToLogin}
+                      className="w-full text-left px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 transition-colors"
+                    >
+                      Iniciar Sesión 
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        onClick={onGoToOrderHistory}
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center justify-between"
+                      >
+                        <span>Mis Pedidos</span>
+                        {orderHistoryCount > 0 && (
+                          <span className="bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                            {orderHistoryCount}
+                          </span>
+                        )}
+                      </button>
+                      <button
+                        onClick={onLogout}
+                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        Cerrar Sesión
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -325,18 +146,54 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar laptops..."
+                placeholder="Buscar por marca o modelo..."
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg">
+              <button 
+                onClick={onGoToProducts}
+                className="block w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg"
+              >
                 Productos
               </button>
               <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg">
                 Ofertas
               </button>
-              <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg">
+              <button 
+                onClick={onGoToContact}
+                className="block w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg"
+              >
                 Contacto
               </button>
+              <button 
+                onClick={onGoToCart}
+                className="block w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                <span>Ver Carrito ({cartItemsCount})</span>
+              </button>
+              {currentUser === 'Invitado' ? (
+                <button
+                  onClick={onGoToLogin}
+                  className="block w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                >
+                  Iniciar Sesión
+                </button>
+              ) : (
+                <>
+                  <button
+                    onClick={onGoToOrderHistory}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
+                  >
+                    <span>Mis Pedidos ({orderHistoryCount})</span>
+                  </button>
+                  <button
+                    onClick={onLogout}
+                    className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg"
+                  >
+                    Cerrar Sesión
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}
@@ -367,9 +224,9 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
             {categories.map(category => (
               <button
                 key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
+                onClick={() => setSelectedBrand(category.id)}
                 className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors ${
-                  selectedCategory === category.id
+                  selectedBrand === category.id
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
@@ -393,7 +250,7 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
           {filteredLaptops.map(laptop => (
             <div
               key={laptop.id}
-              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer"
               onClick={() => onProductClick(laptop)}
             >
               {/* Image */}
@@ -404,7 +261,7 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
                   className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                 />
                 <div className="absolute top-2 right-2 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                  Nuevo
+                  {laptop.brand}
                 </div>
               </div>
 
@@ -421,7 +278,7 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
                 <div className="flex items-center mb-3">
                   <Star className="w-4 h-4 text-yellow-400 fill-current" />
                   <span className="ml-1 text-sm text-gray-600">
-                    {laptop.rating} (124 reseñas)
+                    {laptop.rating} ({laptop.reviews} reseñas)
                   </span>
                 </div>
 
@@ -451,7 +308,6 @@ export default function LaptopStoreMenu({ currentUser, onLogout, onProductClick,
       {/* Footer */}
       <footer className="bg-gray-800 text-white mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
             © 2025 TechLaptops. Todos los derechos reservados.
           </div>
