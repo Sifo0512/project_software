@@ -132,12 +132,6 @@ function Login({ onLoginSuccess, onGoToRegister }) {
             </button>
           </div>
         </div>
-
-        <div className="mt-8 p-4 bg-gray-50 rounded-lg">
-          <p className="text-xs text-gray-600 text-center mb-2">Para probar:</p>
-          <p className="text-xs text-gray-500 text-center">Usuario: <strong>admin</strong></p>
-          <p className="text-xs text-gray-500 text-center">Contraseña: <strong>123456</strong></p>
-        </div>
       </div>
     </div>
   );

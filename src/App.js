@@ -9,6 +9,7 @@ import OrderTracking from './components/OrderTracking';
 import OrderHistory from './components/OrderHistory';
 import ProductsPage from './components/ProductsPage';
 import ContactPage from './components/ContactPage';
+import LoginRequiredModal from './components/LoginRequiredModal';
 
 function App() {
   const [currentView, setCurrentView] = useState('menu');
@@ -17,6 +18,7 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [currentOrder, setCurrentOrder] = useState(null);
   const [orderHistory, setOrderHistory] = useState([]);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   // Array de laptops
   const laptops = [
@@ -241,6 +243,7 @@ function App() {
   };
 
   const handleGoToRegister = () => {
+    setShowLoginModal(false);
     setCurrentView('register');
   };
 
@@ -266,9 +269,10 @@ function App() {
   };
 
   const handleGoToLogin = () => {
+    setShowLoginModal(false);
     setCurrentView('login');
   };
-  
+
   const handleGoToCart = () => {
     setCurrentView('cart');
   };
@@ -278,6 +282,11 @@ function App() {
   };
 
   const handleGoToOrderForm = () => {
+    // Verificar si el usuario está logueado
+    if (currentUser === 'Invitado') {
+      setShowLoginModal(true);
+      return;
+    }
     setCurrentView('orderForm');
   };
 
@@ -407,6 +416,7 @@ function App() {
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveFromCart}
         onCheckout={handleGoToOrderForm}
+        currentUser={currentUser}
       />
     );
   }
@@ -462,8 +472,18 @@ function App() {
       />
     );
   }
-
-  return null;
+  
+  // AGREGA ESTO AQUÍ ↓
+  return (
+    <>
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onGoToLogin={handleGoToLogin}
+        onGoToRegister={handleGoToRegister}
+      />
+    </>
+  );
 }
 
 export default App;

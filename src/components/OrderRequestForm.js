@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ArrowLeft, User, MapPin, CreditCard, Package } from 'lucide-react';
+import PolicyConfirmationModal from './Policy';
 
+import { ArrowLeft, User, MapPin, CreditCard, Package, AlertTriangle } from 'lucide-react';
 export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrder }) {
   const [formData, setFormData] = useState({
     // Información del cliente
@@ -23,6 +24,7 @@ export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrd
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPolicyModal, setShowPolicyModal] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -92,9 +94,15 @@ export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrd
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-
+  
+    // Mostrar modal de confirmación de política
+    setShowPolicyModal(true);
+  };
+  
+  const handleConfirmOrder = async () => {
+    setShowPolicyModal(false);
     setIsSubmitting(true);
-
+  
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
       
@@ -124,7 +132,7 @@ export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrd
                        formData.paymentMethod === 'debitCard' ? 'Tarjeta de Débito' :
                        formData.paymentMethod === 'pse' ? 'PSE' : 'Contraentrega'
       };
-
+  
       onSubmitOrder(order);
     } catch (err) {
       setErrors({ general: 'Error al procesar el pedido. Intenta de nuevo.' });
@@ -136,6 +144,13 @@ export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrd
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
+      {/* Modal de confirmación de política */}
+      <PolicyConfirmationModal
+      isOpen={showPolicyModal}
+      onClose={() => setShowPolicyModal(false)}
+      onConfirm={handleConfirmOrder}
+      orderTotal={total * 1.16}
+      />
       <div className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <button
@@ -452,7 +467,21 @@ export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrd
                   </div>
                 </div>
               </div>
-
+              {/* Advertencia de política */}
+              <div className="mb-4 bg-orange-50 border-2 border-orange-300 rounded-lg p-4">
+                <div className="flex items-start space-x-3">
+                  <AlertTriangle className="w-6 h-6 text-orange-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-orange-900 mb-1">
+                      ⚠️ Política de No Devoluciones
+                    </p>
+                    <p className="text-xs text-orange-800">
+                      Al solicitar este pedido, aceptas que <strong>NO SE REALIZAN DEVOLUCIONES NI REEMBOLSOS</strong>. 
+                      Por favor, verifica todos los datos antes de continuar.
+                    </p>
+                  </div>
+                </div>
+              </div>
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
@@ -476,10 +505,6 @@ export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrd
                 <p className="flex items-center">
                   <span className="mr-2">✓</span>
                   Compra 100% segura
-                </p>
-                <p className="flex items-center">
-                  <span className="mr-2">✓</span>
-                  Garantía de devolución
                 </p>
                 <p className="flex items-center">
                   <span className="mr-2">✓</span>

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Trash2, Plus, Minus, ShoppingBag, Tag, X } from 'lucide-react';
 
-export default function ShoppingCart({ cartItems, onBack, onUpdateQuantity, onRemoveItem, onCheckout }) {
-  const [expandedProduct, setExpandedProduct] = useState(null);
+export default function ShoppingCart({ cartItems, onBack, onUpdateQuantity, onRemoveItem, onCheckout, currentUser }) {  const [expandedProduct, setExpandedProduct] = useState(null);
 
   // Calcular totales
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -350,13 +349,21 @@ export default function ShoppingCart({ cartItems, onBack, onUpdateQuantity, onRe
                     </div>
                   </div>
                 )}
-
+                {currentUser === 'Invitado' && (
+                  <div className="mb-4 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                    <p className="text-sm text-yellow-800 text-center">
+                      <span className="font-semibold">⚠️ Necesitas una cuenta</span>
+                      <br />
+                      Inicia sesión o regístrate para realizar tu pedido
+                    </p>
+                  </div>
+                )}
                 {/* Botón de checkout */}
                 <button
                   onClick={onCheckout}
                   className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors mb-3"
                 >
-                  Solicitar Pedido
+                  {currentUser === 'Invitado' ? 'Iniciar Sesión para Pedir' : 'Solicitar Pedido'}
                 </button>
 
                 <button
@@ -392,10 +399,6 @@ export default function ShoppingCart({ cartItems, onBack, onUpdateQuantity, onRe
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
                     <span>✓</span>
                     <span>Compra 100% segura</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <span>✓</span>
-                    <span>Garantía de devolución</span>
                   </div>
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
                     <span>✓</span>
