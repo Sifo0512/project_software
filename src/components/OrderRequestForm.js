@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PolicyConfirmationModal from './Policy';
-
+import OrderSuccessModal from './OrderSuccessModal';
 import { ArrowLeft, User, MapPin, CreditCard, Package, AlertTriangle } from 'lucide-react';
 export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrder }) {
   const [formData, setFormData] = useState({
@@ -25,6 +25,9 @@ export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrd
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPolicyModal, setShowPolicyModal] = useState(false);
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [createdOrderNumber, setCreatedOrderNumber] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -100,46 +103,54 @@ export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrd
   };
   
   const handleConfirmOrder = async () => {
-    setShowPolicyModal(false);
-    setIsSubmitting(true);
-  
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const order = {
-        orderNumber: 'ORD-' + Date.now(),
-        orderDate: new Date().toLocaleDateString('es-CO'),
-        orderTime: new Date().toLocaleTimeString('es-CO'),
-        processingDate: new Date().toLocaleDateString('es-CO'),
-        processingTime: new Date().toLocaleTimeString('es-CO'),
-        items: cartItems,
-        total: total,
-        customerInfo: {
-          fullName: formData.fullName,
-          document: formData.document,
-          email: formData.email,
-          phone: formData.phone
-        },
-        shippingAddress: {
-          street: formData.street,
-          city: formData.city,
-          state: formData.state,
-          zipCode: formData.zipCode,
-          country: formData.country,
-          notes: formData.notes
-        },
-        paymentMethod: formData.paymentMethod === 'creditCard' ? 'Tarjeta de Crédito' : 
-                       formData.paymentMethod === 'debitCard' ? 'Tarjeta de Débito' :
-                       formData.paymentMethod === 'pse' ? 'PSE' : 'Contraentrega'
-      };
-  
-      onSubmitOrder(order);
-    } catch (err) {
-      setErrors({ general: 'Error al procesar el pedido. Intenta de nuevo.' });
-    }
+  setShowPolicyModal(false);
+  setIsSubmitting(true);
+
+  try {
+    await new Promise(resolve => setTimeout(resolve, 2000));
     
-    setIsSubmitting(false);
-  };
+    const orderNumber = 'ORD-' + Date.now();
+    const order = {
+      orderNumber: orderNumber,
+      orderDate: new Date().toLocaleDateString('es-CO'),
+      orderTime: new Date().toLocaleTimeString('es-CO'),
+      processingDate: new Date().toLocaleDateString('es-CO'),
+      processingTime: new Date().toLocaleTimeString('es-CO'),
+      items: cartItems,
+      total: total,
+      customerInfo: {
+        fullName: formData.fullName,
+        document: formData.document,
+        email: formData.email,
+        phone: formData.phone
+      },
+      shippingAddress: {
+        street: formData.street,
+        city: formData.city,
+        state: formData.state,
+        zipCode: formData.zipCode,
+        country: formData.country,
+        notes: formData.notes
+      },
+      paymentMethod: formData.paymentMethod === 'creditCard' ? 'Tarjeta de Crédito' : 
+                     formData.paymentMethod === 'debitCard' ? 'Tarjeta de Débito' :
+                     formData.paymentMethod === 'pse' ? 'PSE' : 'Contraentrega'
+    };
+
+    // Guardar número de orden y mostrar modal de éxito
+    setCreatedOrderNumber(orderNumber);
+    setShowSuccessModal(true);
+    
+    // Esperar 5 segundos antes de procesar
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    
+    onSubmitOrder(order);
+  } catch (err) {
+    setErrors({ general: 'Error al procesar el pedido. Intenta de nuevo.' });
+  }
+  
+  setIsSubmitting(false);
+};
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -150,6 +161,13 @@ export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrd
       onClose={() => setShowPolicyModal(false)}
       onConfirm={handleConfirmOrder}
       orderTotal={total * 1.16}
+      />
+            <OrderSuccessModal
+        isOpen={showSuccessModal}
+        orderNumber={createdOrderNumber}
+        onClose={() => {
+          setShowSuccessModal(false);
+        }}
       />
       <div className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

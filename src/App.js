@@ -404,6 +404,7 @@ function App() {
         onBack={handleBackToMenu}
         onAddToCart={handleAddToCart}
         onGoToCart={handleGoToCart}
+        cartItemsCount={cartItems.length}
       />
     );
   }

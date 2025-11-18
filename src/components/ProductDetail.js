@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ShoppingCart, Heart, Star, Check, Truck, Shield, Package } from 'lucide-react';
 
-export default function ProductDetail({ product, onBack, onAddToCart, onGoToCart }) {
-  const [quantity, setQuantity] = useState(1);
+export default function ProductDetail({ product, onBack, onAddToCart, onGoToCart, cartItemsCount }) {  const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [addedToCart, setAddedToCart] = useState(false);
 
@@ -99,11 +98,16 @@ export default function ProductDetail({ product, onBack, onAddToCart, onGoToCart
             <ArrowLeft className="w-5 h-5" />
             <span className="font-medium">Volver a la tienda</span>
           </button>
-                <button 
+          <button 
             onClick={onGoToCart}
             className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
             <ShoppingCart className="w-6 h-6 text-gray-700" />
+            {cartItemsCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {cartItemsCount}
+              </span>
+            )}
           </button>
         </div>
       </div>

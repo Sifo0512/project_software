@@ -18,9 +18,9 @@ export default function PolicyConfirmationModal({ isOpen, onClose, onConfirm, or
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 overflow-y-auto">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full my-8 relative animate-fade-in">
-        {/* Header */}
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black bg-opacity-50">
+    <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto my-8 relative animate-fade-in">       
+ {/* Header */}
         <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 rounded-t-2xl">
           <button
             onClick={handleClose}
@@ -84,31 +84,7 @@ export default function PolicyConfirmationModal({ isOpen, onClose, onConfirm, or
             </div>
           </div>
 
-          {/* Información adicional */}
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-              <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
-              Lo que SÍ garantizamos:
-            </h4>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
-                <span>Productos nuevos y en perfectas condiciones</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
-                <span>Garantía del fabricante de 2 años</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
-                <span>Soporte técnico especializado</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-green-600 mr-2">✓</span>
-                <span>Envío seguro y protegido</span>
-              </li>
-            </ul>
-          </div>
+          
 
           {/* Checkbox de aceptación */}
           <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4">
@@ -131,13 +107,6 @@ export default function PolicyConfirmationModal({ isOpen, onClose, onConfirm, or
             </label>
           </div>
 
-          {/* Recordatorio */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-sm text-blue-900">
-              <span className="font-semibold">💡 Consejo:</span> Asegúrate de revisar todos los detalles de tu pedido 
-              (productos, cantidades, dirección de envío) antes de confirmar. Esta será tu última oportunidad para realizar cambios.
-            </p>
-          </div>
         </div>
 
         {/* Footer con botones */}
