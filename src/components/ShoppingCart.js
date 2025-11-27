@@ -111,7 +111,7 @@ export default function ShoppingCart({ cartItems, onBack, onUpdateQuantity, onRe
                         {item.specs}
                       </p>
                       <p className="text-xl font-bold text-blue-600 mb-3">
-                        ${item.price.toFixed(2)}
+                        COP${item.price.toFixed(2)}
                       </p>
 
                       {/* Controles de cantidad */}
@@ -164,7 +164,7 @@ export default function ShoppingCart({ cartItems, onBack, onUpdateQuantity, onRe
                   <div className="mt-3 pt-3 border-t border-gray-200 text-right">
                     <p className="text-sm text-gray-600">
                       Subtotal: <span className="font-bold text-gray-900">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        COP${(item.price * item.quantity).toFixed(2)}
                       </span>
                     </p>
                   </div>
@@ -213,7 +213,7 @@ export default function ShoppingCart({ cartItems, onBack, onUpdateQuantity, onRe
                     <div>
                       <p className="text-sm text-gray-500">Precio Unitario</p>
                       <p className="text-2xl font-bold text-blue-600">
-                        ${selectedProduct.price.toFixed(2)}
+                        COP${selectedProduct.price.toFixed(2)}
                       </p>
                     </div>
 
@@ -246,7 +246,7 @@ export default function ShoppingCart({ cartItems, onBack, onUpdateQuantity, onRe
                     <div className="bg-blue-50 p-3 rounded-lg">
                       <p className="text-sm text-gray-600 mb-1">Subtotal de este producto</p>
                       <p className="text-2xl font-bold text-blue-600">
-                        ${(selectedProduct.price * selectedProduct.quantity).toFixed(2)}
+                        COP${(selectedProduct.price * selectedProduct.quantity).toFixed(2)}
                       </p>
                     </div>
 
@@ -294,7 +294,7 @@ export default function ShoppingCart({ cartItems, onBack, onUpdateQuantity, onRe
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal:</span>
-                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                    <span className="font-semibold">COP${subtotal.toFixed(2)}</span>
                   </div>
                   
                   <div className="flex justify-between text-gray-600">
@@ -303,20 +303,20 @@ export default function ShoppingCart({ cartItems, onBack, onUpdateQuantity, onRe
                       {shipping === 0 ? (
                         <span className="text-green-600">¡GRATIS!</span>
                       ) : (
-                        `$${shipping.toFixed(2)}`
+                        `COP$${shipping.toFixed(2)}`
                       )}
                     </span>
                   </div>
 
                   <div className="flex justify-between text-gray-600">
                     <span>IVA (16%):</span>
-                    <span className="font-semibold">${tax.toFixed(2)}</span>
+                    <span className="font-semibold">COP${tax.toFixed(2)}</span>
                   </div>
 
                   <div className="border-t border-gray-200 pt-3">
                     <div className="flex justify-between text-lg font-bold text-gray-900">
                       <span>Total:</span>
-                      <span className="text-blue-600">${total.toFixed(2)}</span>
+                      <span className="text-blue-600">COP${total.toFixed(2)}</span>
                     </div>
                   </div>
                 </div>

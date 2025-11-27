@@ -199,7 +199,7 @@ export default function ProductsPage({ onBack, onProductClick, onAddToCart, onGo
                       <div className="flex items-center justify-between">
                         <div>
                           <span className="text-2xl font-bold text-blue-600">
-                            ${laptop.price}
+                            COP${laptop.price}
                           </span>
                         </div>
                         <button

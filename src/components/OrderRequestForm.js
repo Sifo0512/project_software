@@ -458,7 +458,7 @@ export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrd
                       <h4 className="text-sm font-semibold text-gray-800">{item.name}</h4>
                       <p className="text-xs text-gray-600">Cantidad: {item.quantity}</p>
                       <p className="text-sm font-bold text-blue-600">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        COP${(item.price * item.quantity).toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -468,7 +468,7 @@ export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrd
               <div className="space-y-2 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal:</span>
-                  <span className="font-semibold">${total.toFixed(2)}</span>
+                  <span className="font-semibold">COP${total.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Envío:</span>
@@ -476,12 +476,12 @@ export default function OrderRequestForm({ cartItems, total, onBack, onSubmitOrd
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>IVA (16%):</span>
-                  <span className="font-semibold">${(total * 0.16).toFixed(2)}</span>
+                  <span className="font-semibold">COP${(total * 0.16).toFixed(2)}</span>
                 </div>
                 <div className="border-t border-gray-300 pt-2">
                   <div className="flex justify-between text-lg font-bold text-gray-900">
                     <span>Total:</span>
-                    <span className="text-blue-600">${(total * 1.16).toFixed(2)}</span>
+                    <span className="text-blue-600">COP${(total * 1.16).toFixed(2)}</span>
                   </div>
                 </div>
               </div>

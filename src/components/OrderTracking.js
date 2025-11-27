@@ -181,7 +181,7 @@ export default function OrderTracking({ order, onBack, onNewOrder }) {
                     </div>
                     <div className="text-right">
                       <p className="font-bold text-gray-900">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        COP${(item.price * item.quantity).toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -192,7 +192,7 @@ export default function OrderTracking({ order, onBack, onNewOrder }) {
               <div className="mt-6 pt-6 border-t-2 border-gray-300">
                 <div className="flex justify-between text-xl font-bold text-gray-900">
                   <span>Total del Pedido:</span>
-                  <span className="text-blue-600">${order?.total.toFixed(2)}</span>
+                  <span className="text-blue-600">COP${order?.total.toFixed(2)}</span>
                 </div>
               </div>
             </div>

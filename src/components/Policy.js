@@ -45,7 +45,7 @@ export default function PolicyConfirmationModal({ isOpen, onClose, onConfirm, or
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-blue-800 font-semibold">Total de tu pedido:</p>
-                <p className="text-3xl font-bold text-blue-600">${orderTotal.toFixed(2)}</p>
+                <p className="text-3xl font-bold text-blue-600">COP${orderTotal.toFixed(2)}</p>
               </div>
               <Info className="w-12 h-12 text-blue-600" />
             </div>

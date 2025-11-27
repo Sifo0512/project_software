@@ -26,7 +26,7 @@ function App() {
       id: 1,
       name: 'Dell XPS 15',
       brand: 'Dell',
-      price: 1299.99,
+      price: 2000000,
       image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400',
       images: [
         'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800',
@@ -36,7 +36,7 @@ function App() {
       category: 'premium',
       rating: 4.8,
       reviews: 124,
-      stock: 15,
+      stock: 10,
       specs: 'Intel i7, 16GB RAM, 512GB SSD',
       description: 'La Dell XPS 15 es una laptop premium diseñada para profesionales que buscan potencia y portabilidad.',
       specifications: {
@@ -58,7 +58,7 @@ function App() {
       id: 2,
       name: 'MacBook Pro 14"',
       brand: 'Apple',
-      price: 1999.99,
+      price: 7450000,
       image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400',
       images: [
         'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800',
@@ -90,7 +90,7 @@ function App() {
       id: 3,
       name: 'Lenovo ThinkPad X1',
       brand: 'Lenovo',
-      price: 899.99,
+      price: 2300000,
       image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400',
       images: [
         'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800',
@@ -100,7 +100,7 @@ function App() {
       category: 'business',
       rating: 4.6,
       reviews: 156,
-      stock: 20,
+      stock: 5,
       specs: 'Intel i5, 8GB RAM, 256GB SSD',
       description: 'ThinkPad diseñada para negocios con durabilidad militar y seguridad empresarial.',
       specifications: {
@@ -122,7 +122,7 @@ function App() {
       id: 4,
       name: 'ASUS ROG Strix G15',
       brand: 'ASUS',
-      price: 1599.99,
+      price: 6000000,
       image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400',
       images: [
         'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=800',
@@ -154,7 +154,7 @@ function App() {
       id: 5,
       name: 'HP Pavilion 15',
       brand: 'HP',
-      price: 649.99,
+      price: 2420000,
       image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400',
       images: [
         'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800',
@@ -186,7 +186,7 @@ function App() {
       id: 6,
       name: 'Acer Aspire 5',
       brand: 'Acer',
-      price: 549.99,
+      price: 2400000,
       image: 'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?w=400',
       images: [
         'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?w=800',
@@ -196,7 +196,7 @@ function App() {
       category: 'home',
       rating: 4.2,
       reviews: 178,
-      stock: 30,
+      stock: 12,
       specs: 'Intel i5, 8GB RAM, 512GB SSD',
       description: 'Laptop económica con buen rendimiento para tareas cotidianas y productividad básica.',
       specifications: {

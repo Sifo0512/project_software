@@ -166,7 +166,7 @@ export default function OrderHistory({ orders, onBack, onViewOrder }) {
                       <div className="mt-4 md:mt-0 text-right">
                         <p className="text-sm text-gray-600">Total</p>
                         <p className="text-2xl font-bold text-blue-600">
-                          ${order.total.toFixed(2)}
+                          COP${order.total.toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -192,7 +192,7 @@ export default function OrderHistory({ orders, onBack, onViewOrder }) {
                                 Cant: {item.quantity}
                               </p>
                               <p className="text-sm font-bold text-blue-600">
-                                ${(item.price * item.quantity).toFixed(2)}
+                                COP${(item.price * item.quantity).toFixed(2)}
                               </p>
                             </div>
                           </div>

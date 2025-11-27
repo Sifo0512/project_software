@@ -9,7 +9,7 @@ export default function ProductDetail({ product, onBack, onAddToCart, onGoToCart
   const defaultProduct = {
     id: 1,
     name: 'Dell XPS 15',
-    price: 1299.99,
+    price: 2000000,
     images: [
       'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800',
       'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800',
@@ -171,10 +171,10 @@ export default function ProductDetail({ product, onBack, onAddToCart, onGoToCart
               </h1>
               <div className="flex items-baseline space-x-2">
                 <span className="text-4xl font-bold text-blue-600">
-                  ${currentProduct.price.toFixed(2)}
+                  COP${currentProduct.price.toFixed(2)}
                 </span>
                 <span className="text-gray-500 line-through text-xl">
-                  ${(currentProduct.price * 1.2).toFixed(2)}
+                  COP${(currentProduct.price * 1.2).toFixed(2)}
                 </span>
                 <span className="bg-red-500 text-white px-2 py-1 rounded text-sm font-semibold">
                   -20%
@@ -231,7 +231,7 @@ export default function ProductDetail({ product, onBack, onAddToCart, onGoToCart
             </div>
             <span className="text-gray-600 text-sm">
               Total: <span className="font-bold text-lg text-gray-900">
-                ${(currentProduct.price * quantity).toFixed(2)}
+                COP${(currentProduct.price * quantity).toFixed(2)}
               </span>
             </span>
           </div>
